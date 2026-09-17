@@ -1,16 +1,16 @@
-import { useState, useEffect } from "react";
+import { useMemo, useEffect } from "react";
 
 export function useObjectUrls(files: File[]) {
-  const [urls, setUrls] = useState<string[]>([]);
+  const urls = useMemo(
+    () => files.map((file) => URL.createObjectURL(file)),
+    [files]
+  );
 
   useEffect(() => {
-    const newUrls = files.map((file) => URL.createObjectURL(file));
-    setUrls(newUrls);
-
     return () => {
-      newUrls.forEach((url) => URL.revokeObjectURL(url));
+      urls.forEach((url) => URL.revokeObjectURL(url));
     };
-  }, [files]);
+  }, [urls]);
 
   return urls;
 }
