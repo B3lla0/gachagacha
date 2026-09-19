@@ -1,13 +1,13 @@
 import { useEffect, useRef } from "react";
 
-interface Ball {
-  x: number;
-  y: number;
-  vx: number;
-  vy: number;
-  radius: number;
-  color: string;
-}
+// interface Ball {
+//   x: number;
+//   y: number;
+//   vx: number;
+//   vy: number;
+//   radius: number;
+//   color: string;
+// }
 
 interface DummyCapsule {
   x: number;
@@ -23,7 +23,7 @@ const RARITY_COLORS = {
   legendary: "#ffc145",
 };
 
-const BALL_RADIUS = 20;
+// const BALL_RADIUS = 20;
 const DUMMY_RADIUS = 20;
 
 const WINDOW_RECT = { x: 24, y: 24, width: 220 - 48, height: 260 * 0.55 };
@@ -107,32 +107,32 @@ export function GachaMachineCanvas() {
     const width = canvas.width;
     const height = canvas.height;
 
-    const balls: Ball[] = [
-      {
-        x: WINDOW_RECT.x + 40,
-        y: WINDOW_RECT.y + 30,
-        vx: 1.6,
-        vy: 1.1,
-        radius: BALL_RADIUS,
-        color: RARITY_COLORS.common,
-      },
-      {
-        x: WINDOW_RECT.x + 100,
-        y: WINDOW_RECT.y + 60,
-        vx: -1.3,
-        vy: 1.4,
-        radius: BALL_RADIUS,
-        color: RARITY_COLORS.rare,
-      },
-      {
-        x: WINDOW_RECT.x + 70,
-        y: WINDOW_RECT.y + 90,
-        vx: 1.1,
-        vy: -1.6,
-        radius: BALL_RADIUS,
-        color: RARITY_COLORS.legendary,
-      },
-    ];
+    // const balls: Ball[] = [
+    //   {
+    //     x: WINDOW_RECT.x + 40,
+    //     y: WINDOW_RECT.y + 30,
+    //     vx: 1.6,
+    //     vy: 1.1,
+    //     radius: BALL_RADIUS,
+    //     color: RARITY_COLORS.common,
+    //   },
+    //   {
+    //     x: WINDOW_RECT.x + 100,
+    //     y: WINDOW_RECT.y + 60,
+    //     vx: -1.3,
+    //     vy: 1.4,
+    //     radius: BALL_RADIUS,
+    //     color: RARITY_COLORS.rare,
+    //   },
+    //   {
+    //     x: WINDOW_RECT.x + 70,
+    //     y: WINDOW_RECT.y + 90,
+    //     vx: 1.1,
+    //     vy: -1.6,
+    //     radius: BALL_RADIUS,
+    //     color: RARITY_COLORS.legendary,
+    //   },
+    // ];
 
     let frameId: number;
 
