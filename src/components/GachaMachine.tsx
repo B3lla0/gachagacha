@@ -41,9 +41,15 @@ export function GachaMachine() {
   ];
 
   const [result, setResult] = useState<GachaCapsule | null>(null);
+  const [drawId, setDrawId] = useState(0);
 
   const handleFiles = (rarity: Rarity, files: File[]) => {
     setFilesByRarity((prev) => ({ ...prev, [rarity]: files }));
+  };
+
+  const handleDraw = () => {
+    setResult(drawGacha(items));
+    setDrawId((prev) => prev + 1);
   };
 
   return (
@@ -56,13 +62,10 @@ export function GachaMachine() {
           onFilesSelected={handleFiles}
         />
       ))}
-      <button
-        disabled={items.length === 0}
-        onClick={() => setResult(drawGacha(items))}
-      >
+      <button disabled={items.length === 0} onClick={handleDraw}>
         뽑기
       </button>
-      {result && <GachaReveal item={result} />}
+      {result && <GachaReveal item={result} drawId={drawId} />}
     </div>
   );
 }

@@ -1,10 +1,15 @@
 import { motion } from "framer-motion";
 import type { GachaCapsule } from "../types/capsule";
 
-export function GachaReveal({ item }: { item: GachaCapsule }) {
+interface Props {
+  item: GachaCapsule;
+  drawId: number;
+}
+
+export function GachaReveal({ item, drawId }: Props) {
   return (
     <motion.div
-      key={item.id}
+      key={`${item.id}-${drawId}`}
       initial={{ scale: 0, rotate: -180 }}
       animate={{ scale: 1, rotate: 0 }}
       transition={{ type: "spring", stiffness: 200 }}
