@@ -1,0 +1,22 @@
+.machine-canvas-wrap {
+  width: 220px;
+  margin: 0 auto;
+  border-radius: 20px;
+  box-shadow: 0 0 60px 10px rgba(106, 90, 148, 0.45);
+  transition: box-shadow 0.5s ease;
+}
+
+.machine-canvas-wrap.rarity-common {
+  box-shadow: 0 0 60px 14px rgba(111, 168, 220, 0.5);
+}
+.machine-canvas-wrap.rarity-rare {
+  box-shadow: 0 0 60px 14px rgba(179, 136, 255, 0.55);
+}
+.machine-canvas-wrap.rarity-legendary {
+  box-shadow: 0 0 70px 16px rgba(255, 193, 69, 0.6);
+}
+
+.machine-canvas {
+  display: block;
+  border-radius: 20px;
+}

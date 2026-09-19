@@ -4,6 +4,7 @@ import type { GachaCapsule, Rarity } from "../types/capsule";
 import { RarityUploader } from "./RarityUploader";
 import { useObjectUrls } from "../hooks/useObjectUrls";
 import { GachaReveal } from "./GachaReveal";
+import { GachaMachineCanvas } from "./GachaMachineCanvas";
 
 const RARITIES: { rarity: Rarity; label: string }[] = [
   { rarity: "common", label: "커먼" },
@@ -62,6 +63,9 @@ export function GachaMachine() {
           onFilesSelected={handleFiles}
         />
       ))}
+      <div className={`machine-canvas-wrap rarity-${result?.rarity ?? "idle"}`}>
+        <GachaMachineCanvas />
+      </div>
       <button disabled={items.length === 0} onClick={handleDraw}>
         뽑기
       </button>
