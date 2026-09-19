@@ -7,9 +7,19 @@ const WEIGHTS: Record<Rarity, number> = {
 };
 
 export function drawGacha(items: GachaCapsule[]): GachaCapsule {
-  const weighted = items.flatMap((item) =>
-    Array(WEIGHTS[item.rarity]).fill(item)
+  const totalWeight = items.reduce(
+    (sum, item) => sum + WEIGHTS[item.rarity],
+    0
   );
-  const index = Math.floor(Math.random() * weighted.length);
-  return weighted[index];
+
+  let random = Math.random() * totalWeight;
+
+  for (const item of items) {
+    random -= WEIGHTS[item.rarity];
+    if (random <= 0) {
+      return item;
+    }
+  }
+
+  return items[items.length - 1];
 }
