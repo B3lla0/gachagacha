@@ -1,14 +1,5 @@
 import { useEffect, useRef } from "react";
 
-// interface Ball {
-//   x: number;
-//   y: number;
-//   vx: number;
-//   vy: number;
-//   radius: number;
-//   color: string;
-// }
-
 interface DummyCapsule {
   x: number;
   y: number;
@@ -23,7 +14,6 @@ const RARITY_COLORS = {
   legendary: "#ffc145",
 };
 
-// const BALL_RADIUS = 20;
 const DUMMY_RADIUS = 20;
 
 const WINDOW_RECT = { x: 24, y: 24, width: 220 - 48, height: 260 * 0.55 };
@@ -64,7 +54,6 @@ const DUMMY_CAPSULES: DummyCapsule[] = [
     color: RARITY_COLORS.common,
     angle: 0.4,
   },
-  // 2번째 줄
   {
     x: WINDOW_RECT.x + 10,
     y: WINDOW_RECT.y + WINDOW_RECT.height - 55,
@@ -95,8 +84,17 @@ const DUMMY_CAPSULES: DummyCapsule[] = [
   },
 ];
 
-export function GachaMachineCanvas() {
+interface Props {
+  isShaking: boolean;
+}
+
+export function GachaMachineCanvas({ isShaking }: Props) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const isShakingRef = useRef(isShaking);
+
+  useEffect(() => {
+    isShakingRef.current = isShaking;
+  }, [isShaking]);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -107,43 +105,14 @@ export function GachaMachineCanvas() {
     const width = canvas.width;
     const height = canvas.height;
 
-    // const balls: Ball[] = [
-    //   {
-    //     x: WINDOW_RECT.x + 40,
-    //     y: WINDOW_RECT.y + 30,
-    //     vx: 1.6,
-    //     vy: 1.1,
-    //     radius: BALL_RADIUS,
-    //     color: RARITY_COLORS.common,
-    //   },
-    //   {
-    //     x: WINDOW_RECT.x + 100,
-    //     y: WINDOW_RECT.y + 60,
-    //     vx: -1.3,
-    //     vy: 1.4,
-    //     radius: BALL_RADIUS,
-    //     color: RARITY_COLORS.rare,
-    //   },
-    //   {
-    //     x: WINDOW_RECT.x + 70,
-    //     y: WINDOW_RECT.y + 90,
-    //     vx: 1.1,
-    //     vy: -1.6,
-    //     radius: BALL_RADIUS,
-    //     color: RARITY_COLORS.legendary,
-    //   },
-    // ];
-
     let frameId: number;
 
     function drawMachine() {
       if (!ctx) return;
-      // 기계 본체
       ctx.fillStyle = "#9cd7d1";
       roundRect(ctx, 4, 4, width - 8, height - 8, 20);
       ctx.fill();
 
-      // 유리창
       ctx.fillStyle = "#BADFDB";
       roundRect(
         ctx,
@@ -158,49 +127,38 @@ export function GachaMachineCanvas() {
       ctx.lineWidth = 3;
       ctx.stroke();
 
-      // 캡슐 배출구
       ctx.fillStyle = "#BADFDB";
       roundRect(ctx, width / 2 - 40, height - 56, 80, 32, 8);
       ctx.fill();
     }
 
-    // function drawBall(ball: Ball) {
-    //   if (!ctx) return;
-    //   ctx.beginPath();
-    //   ctx.arc(ball.x, ball.y, ball.radius, 0, Math.PI * 2);
-    //   ctx.fillStyle = ball.color;
-    //   ctx.fill();
-    // }
-
-    function drawDummyCapsule(capsule: DummyCapsule) {
+    function drawDummyCapsule(
+      capsule: DummyCapsule,
+      offsetX: number,
+      offsetY: number
+    ) {
       if (!ctx) return;
-      // 원래 색으로 전체 채우기
+      const x = capsule.x + offsetX;
+      const y = capsule.y + offsetY;
+
       ctx.beginPath();
-      ctx.arc(capsule.x, capsule.y, capsule.radius, 0, Math.PI * 2);
+      ctx.arc(x, y, capsule.radius, 0, Math.PI * 2);
       ctx.fillStyle = capsule.color;
       ctx.fill();
 
-      // 절반만 흰색으로 덮기
       ctx.beginPath();
-      ctx.moveTo(capsule.x, capsule.y);
-      ctx.arc(
-        capsule.x,
-        capsule.y,
-        capsule.radius,
-        capsule.angle,
-        capsule.angle + Math.PI
-      );
+      ctx.moveTo(x, y);
+      ctx.arc(x, y, capsule.radius, capsule.angle, capsule.angle + Math.PI);
       ctx.closePath();
       ctx.fillStyle = "white";
       ctx.fill();
     }
 
-    function step() {
+    function step(time: number) {
       if (!ctx) return;
       ctx.clearRect(0, 0, width, height);
       drawMachine();
 
-      // 유리창 영역 밖은 그려도 안 보이게 클리핑
       ctx.save();
       roundRect(
         ctx,
@@ -212,31 +170,19 @@ export function GachaMachineCanvas() {
       );
       ctx.clip();
 
-      // 움직이는 공을 먼저 그림 (위치 갱신 + 벽 충돌 처리 포함)
-      //   balls.forEach((ball) => {
-      //     ball.x += ball.vx;
-      //     ball.y += ball.vy;
+      // 흔들리는 동안엔 캡슐마다 살짝 다른 위상으로 들썩이게 함
+      DUMMY_CAPSULES.forEach((capsule, i) => {
+        let offsetX = 0;
+        let offsetY = 0;
+        if (isShakingRef.current) {
+          const phase = time * 0.03 + i * 1.3;
+          offsetX = Math.sin(phase) * 4;
+          offsetY = Math.cos(phase * 1.4) * 3;
+        }
+        drawDummyCapsule(capsule, offsetX, offsetY);
+      });
 
-      //     if (
-      //       ball.x - ball.radius < WINDOW_RECT.x ||
-      //       ball.x + ball.radius > WINDOW_RECT.x + WINDOW_RECT.width
-      //     ) {
-      //       ball.vx *= -1;
-      //     }
-      //     if (
-      //       ball.y - ball.radius < WINDOW_RECT.y ||
-      //       ball.y + ball.radius > WINDOW_RECT.y + WINDOW_RECT.height
-      //     ) {
-      //       ball.vy *= -1;
-      //     }
-
-      //     drawBall(ball);
-      //   });
-
-      // 바닥에 쌓인 더미 캡슐을 나중에 그려서 위로 보이게 함
-      DUMMY_CAPSULES.forEach(drawDummyCapsule);
-
-      ctx.restore(); // 클리핑 해제
+      ctx.restore();
 
       frameId = requestAnimationFrame(step);
     }

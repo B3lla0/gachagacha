@@ -5,6 +5,7 @@ import { RarityUploader } from "./RarityUploader";
 import { useObjectUrls } from "../hooks/useObjectUrls";
 import { GachaReveal } from "./GachaReveal";
 import { GachaMachineCanvas } from "./GachaMachineCanvas";
+import "../styles/gacha.css";
 
 const RARITIES: { rarity: Rarity; label: string }[] = [
   { rarity: "common", label: "커먼" },
@@ -43,14 +44,19 @@ export function GachaMachine() {
 
   const [result, setResult] = useState<GachaCapsule | null>(null);
   const [drawId, setDrawId] = useState(0);
+  const [isShaking, setIsShaking] = useState(false);
 
   const handleFiles = (rarity: Rarity, files: File[]) => {
     setFilesByRarity((prev) => ({ ...prev, [rarity]: files }));
   };
 
   const handleDraw = () => {
-    setResult(drawGacha(items));
-    setDrawId((prev) => prev + 1);
+    setIsShaking(true);
+    setTimeout(() => {
+      setResult(drawGacha(items));
+      setDrawId((prev) => prev + 1);
+      setIsShaking(false);
+    }, 600);
   };
 
   return (
@@ -63,11 +69,20 @@ export function GachaMachine() {
           onFilesSelected={handleFiles}
         />
       ))}
-      <div className={`machine-canvas-wrap rarity-${result?.rarity ?? "idle"}`}>
-        <GachaMachineCanvas />
+      <div
+        className={`machine-canvas-wrap rarity-${result?.rarity ?? "idle"} ${
+          isShaking ? "shaking" : ""
+        }`}
+      >
+        <GachaMachineCanvas isShaking={isShaking} />
       </div>
-      <button disabled={items.length === 0} onClick={handleDraw}>
-        뽑기
+      <button
+        className="machine-knob"
+        disabled={items.length === 0}
+        onClick={handleDraw}
+      >
+        <span className="machine-knob-icon">🎲</span>
+        돌리기
       </button>
       {result && <GachaReveal item={result} drawId={drawId} />}
     </div>
