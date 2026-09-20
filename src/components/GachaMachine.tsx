@@ -24,6 +24,12 @@ export function GachaMachine() {
   const rareUrls = useObjectUrls(filesByRarity.rare);
   const legendaryUrls = useObjectUrls(filesByRarity.legendary);
 
+  const urlsByRarity: Record<Rarity, string[]> = {
+    common: commonUrls,
+    rare: rareUrls,
+    legendary: legendaryUrls,
+  };
+
   const items: GachaCapsule[] = [
     ...commonUrls.map((url, i) => ({
       id: `common-${i}`,
@@ -60,31 +66,47 @@ export function GachaMachine() {
   };
 
   return (
-    <div>
-      {RARITIES.map(({ rarity, label }) => (
-        <RarityUploader
-          key={rarity}
-          rarity={rarity}
-          label={label}
-          onFilesSelected={handleFiles}
-        />
-      ))}
-      <div
-        className={`machine-canvas-wrap rarity-${result?.rarity ?? "idle"} ${
-          isShaking ? "shaking" : ""
-        }`}
-      >
-        <GachaMachineCanvas isShaking={isShaking} />
+    <div className="machine-page">
+      <header className="machine-header">
+        <h1 className="machine-title">캡슐 가챠</h1>
+        <p className="machine-subtitle">
+          이미지를 등급별로 넣고 캡슐을 뽑아보세요
+        </p>
+      </header>
+
+      <div className="machine-layout">
+        <section className="upload-panel">
+          {RARITIES.map(({ rarity, label }) => (
+            <RarityUploader
+              key={rarity}
+              rarity={rarity}
+              label={label}
+              urls={urlsByRarity[rarity]}
+              onFilesSelected={handleFiles}
+            />
+          ))}
+        </section>
+
+        <section className="machine-panel">
+          <div
+            className={`machine-canvas-wrap rarity-${
+              result?.rarity ?? "idle"
+            } ${isShaking ? "shaking" : ""}`}
+          >
+            <GachaMachineCanvas isShaking={isShaking} />
+          </div>
+          <div className="machine-shadow" />
+          <button
+            className="machine-knob"
+            disabled={items.length === 0}
+            onClick={handleDraw}
+          >
+            <span className="machine-knob-icon">🎲</span>
+            돌리기
+          </button>
+        </section>
       </div>
-      <div className="machine-shadow" />
-      <button
-        className="machine-knob"
-        disabled={items.length === 0}
-        onClick={handleDraw}
-      >
-        <span className="machine-knob-icon">🎲</span>
-        돌리기
-      </button>
+
       {result && <GachaReveal item={result} drawId={drawId} />}
     </div>
   );
