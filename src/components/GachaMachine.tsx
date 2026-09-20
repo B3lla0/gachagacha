@@ -76,6 +76,7 @@ export function GachaMachine() {
       >
         <GachaMachineCanvas isShaking={isShaking} />
       </div>
+      <div className="machine-shadow" />
       <button
         className="machine-knob"
         disabled={items.length === 0}
