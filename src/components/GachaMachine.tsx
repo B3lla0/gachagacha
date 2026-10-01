@@ -68,7 +68,10 @@ export function GachaMachine() {
   return (
     <div className="machine-page">
       <header className="machine-header">
-        <h1 className="machine-title">캡슐 가챠</h1>
+        <div className="logo">
+          <i></i>
+          <h1 className="machine-title">GachaGacha</h1>
+        </div>
         <p className="machine-subtitle">
           이미지를 등급별로 넣고 캡슐을 뽑아보세요
         </p>
