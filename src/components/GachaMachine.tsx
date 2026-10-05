@@ -8,9 +8,9 @@ import { GachaMachineCanvas } from "./GachaMachineCanvas";
 import "../styles/gacha.css";
 
 const RARITIES: { rarity: Rarity; label: string }[] = [
-  { rarity: "common", label: "커먼" },
-  { rarity: "rare", label: "레어" },
-  { rarity: "legendary", label: "레전더리" },
+  { rarity: "common", label: "일반" },
+  { rarity: "rare", label: "희귀" },
+  { rarity: "legendary", label: "전설" },
 ];
 
 export function GachaMachine() {
