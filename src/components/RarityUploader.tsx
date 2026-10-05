@@ -6,6 +6,7 @@ interface Props {
   label: string;
   urls: string[];
   onFilesSelected: (rarity: Rarity, files: File[]) => void;
+  onRemove: (rarity: Rarity, index: number) => void;
 }
 
 export function RarityUploader({
@@ -13,6 +14,7 @@ export function RarityUploader({
   label,
   urls,
   onFilesSelected,
+  onRemove,
 }: Props) {
   return (
     <div className="upload-card" data-rarity={rarity}>
@@ -29,14 +31,21 @@ export function RarityUploader({
       />
 
       {urls.length > 0 && (
-        <div className="upload-card-thumbs">
-          {urls.slice(0, 4).map((url, i) => (
-            <img key={i} src={url} alt="" className="upload-card-thumb" />
+        <ul className="upload-card-thumbs">
+          {urls.map((url, i) => (
+            <li key={url} className="upload-card-thumb-item">
+              <img src={url} alt="" className="upload-card-thumb" />
+              <button
+                type="button"
+                className="upload-card-thumb-remove"
+                onClick={() => onRemove(rarity, i)}
+                aria-label={`${label} ${i + 1}번째 이미지 삭제`}
+              >
+                ×
+              </button>
+            </li>
           ))}
-          {urls.length > 4 && (
-            <span className="upload-card-more">+{urls.length - 4}</span>
-          )}
-        </div>
+        </ul>
       )}
     </div>
   );

@@ -36,7 +36,7 @@
 }
 .machine-layout {
   display: flex;
-  flex-direction: column;
+  flex-direction: column-reverse;
   align-items: center;
   gap: 2.5rem;
   margin-top: 2rem;
@@ -142,12 +142,43 @@
   align-items: center;
 }
 
+.upload-card-thumb-item {
+  position: relative;
+  width: 44px;
+  height: 44px;
+}
+
 .upload-card-thumb {
   width: 40px;
   height: 40px;
   border-radius: 10px;
   object-fit: cover;
   border: 2px solid rgba(255, 255, 255, 0.15);
+}
+
+.upload-card-thumb-remove {
+  position: absolute;
+  top: 3px;
+  right: 3px;
+  width: 18px;
+  height: 18px;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  background: rgba(10, 6, 20, 0.8);
+  color: white;
+  font-size: 12px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.upload-card-thumb-remove:hover {
+  background: #e5484d;
+}
+
+.upload-card-thumb-remove:focus-visible {
+  outline: 2px solid var(--legendary);
+  outline-offset: 1px;
 }
 
 .upload-card-more {
@@ -183,13 +214,24 @@
 }
 
 .machine-knob {
-  padding: 14px 10px;
+  padding: 14px 20px;
   border: 2px solid #000;
   background-color: #7be0c3;
   border-radius: 14px;
   font-size: 20px;
   font-family: "Black Han Sans", sans-serif;
   color: #000;
+}
+
+.machine-knob:not(:disabled):active {
+  transform: translateY(2px);
+}
+
+.machine-knob:disabled {
+  background-color: #d9d9d9;
+  border-color: #9a9a9a;
+  color: #8a8a8a;
+  cursor: not-allowed;
 }
 
 .modal-backdrop {
@@ -236,6 +278,14 @@
 .modal-close:focus-visible {
   outline: 2px solid var(--legendary);
   outline-offset: 2px;
+}
+
+.gacha-result {
+  width: 200px;
+  height: 200px;
+  object-fit: cover;
+  border: 2px solid #000;
+  border-radius: 14px;
 }
 
 @keyframes machine-shake {

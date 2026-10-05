@@ -14,7 +14,7 @@ export function GachaReveal({ item, drawId }: Props) {
       animate={{ scale: 1, rotate: 0 }}
       transition={{ type: "spring", stiffness: 200 }}
     >
-      <img src={item.imageUrl} alt="gacha result" width={200} />
+      <img src={item.imageUrl} alt="gacha result" className="gacha-result" />
       <p>{item.rarity}</p>
     </motion.div>
   );

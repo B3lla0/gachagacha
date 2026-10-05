@@ -52,8 +52,22 @@ export function GachaMachine() {
   const [drawId, setDrawId] = useState(0);
   const [isShaking, setIsShaking] = useState(false);
 
+  // const handleFiles = (rarity: Rarity, files: File[]) => {
+  //   setFilesByRarity((prev) => ({ ...prev, [rarity]: files }));
+  // };
+
   const handleFiles = (rarity: Rarity, files: File[]) => {
-    setFilesByRarity((prev) => ({ ...prev, [rarity]: files }));
+    setFilesByRarity((prev) => ({
+      ...prev,
+      [rarity]: [...prev[rarity], ...files], // 교체가 아니라 뒤에 추가
+    }));
+  };
+
+  const handleRemove = (rarity: Rarity, index: number) => {
+    setFilesByRarity((prev) => ({
+      ...prev,
+      [rarity]: prev[rarity].filter((_, i) => i !== index),
+    }));
   };
 
   const handleDraw = () => {
@@ -86,6 +100,7 @@ export function GachaMachine() {
               label={label}
               urls={urlsByRarity[rarity]}
               onFilesSelected={handleFiles}
+              onRemove={handleRemove}
             />
           ))}
         </section>
@@ -104,7 +119,7 @@ export function GachaMachine() {
             disabled={items.length === 0}
             onClick={handleDraw}
           >
-            1회 뽑기
+            뽑기
           </button>
         </section>
       </div>
