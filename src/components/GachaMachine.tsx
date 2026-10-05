@@ -3,7 +3,7 @@ import { drawGacha } from "../utils/gacha";
 import type { GachaCapsule, Rarity } from "../types/capsule";
 import { RarityUploader } from "./RarityUploader";
 import { useObjectUrls } from "../hooks/useObjectUrls";
-import { GachaReveal } from "./GachaReveal";
+import { GachaResultModal } from "./GachaResultModal";
 import { GachaMachineCanvas } from "./GachaMachineCanvas";
 import "../styles/gacha.css";
 
@@ -104,13 +104,16 @@ export function GachaMachine() {
             disabled={items.length === 0}
             onClick={handleDraw}
           >
-            <span className="machine-knob-icon">🎲</span>
-            돌리기
+            1회 뽑기
           </button>
         </section>
       </div>
 
-      {result && <GachaReveal item={result} drawId={drawId} />}
+      <GachaResultModal
+        result={result}
+        drawId={drawId}
+        onClose={() => setResult(null)}
+      />
     </div>
   );
 }
