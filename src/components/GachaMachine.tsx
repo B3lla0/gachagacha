@@ -87,8 +87,9 @@ export function GachaMachine() {
           <h1 className="machine-title">GachaGacha</h1>
         </div>
         <p className="machine-subtitle">
-          이미지를 등급별로 넣고 캡슐을 뽑아보세요
+          이미지를 등급별로 넣고 캡슐을 뽑아보세요.
         </p>
+        <span>이미지를 여러장 등록할 수 있어요!</span>
       </header>
 
       <div className="machine-layout">

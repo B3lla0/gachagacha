@@ -4,15 +4,18 @@ interface Props {
 
 export function ImageUploader({ onFilesSelected }: Props) {
   return (
-    <input
-      type="file"
-      accept="image/*"
-      multiple
-      onChange={(e) => {
-        if (e.target.files) {
-          onFilesSelected(Array.from(e.target.files));
-        }
-      }}
-    />
+    <label className="file-input" title="이미지 추가">
+      <input
+        type="file"
+        accept="image/*"
+        multiple
+        aria-label="이미지 추가"
+        onChange={(e) => {
+          const files = Array.from(e.target.files ?? []);
+          e.target.value = "";
+          if (files.length > 0) onFilesSelected(files);
+        }}
+      />
+    </label>
   );
 }

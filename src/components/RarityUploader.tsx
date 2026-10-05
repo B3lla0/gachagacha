@@ -26,27 +26,27 @@ export function RarityUploader({
         )}
       </div>
 
-      <ImageUploader
-        onFilesSelected={(files) => onFilesSelected(rarity, files)}
-      />
+      <ul className="upload-card-thumbs">
+        <li className="upload-card-thumb-item">
+          <ImageUploader
+            onFilesSelected={(files) => onFilesSelected(rarity, files)}
+          />
+        </li>
 
-      {urls.length > 0 && (
-        <ul className="upload-card-thumbs">
-          {urls.map((url, i) => (
-            <li key={url} className="upload-card-thumb-item">
-              <img src={url} alt="" className="upload-card-thumb" />
-              <button
-                type="button"
-                className="upload-card-thumb-remove"
-                onClick={() => onRemove(rarity, i)}
-                aria-label={`${label} ${i + 1}번째 이미지 삭제`}
-              >
-                ×
-              </button>
-            </li>
-          ))}
-        </ul>
-      )}
+        {urls.map((url, i) => (
+          <li key={url} className="upload-card-thumb-item">
+            <img src={url} alt="" className="upload-card-thumb" />
+            <button
+              type="button"
+              className="upload-card-thumb-remove"
+              onClick={() => onRemove(rarity, i)}
+              aria-label={`${label} ${i + 1}번째 이미지 삭제`}
+            >
+              ×
+            </button>
+          </li>
+        ))}
+      </ul>
     </div>
   );
 }

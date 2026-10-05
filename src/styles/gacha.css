@@ -4,6 +4,10 @@
   flex-direction: column;
 }
 
+.machine-header span {
+  font-size: 12px;
+}
+
 .logo {
   display: flex;
   align-items: center;
@@ -109,23 +113,46 @@
 
 .file-input {
   position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  padding: 0.85rem;
-  border-radius: 14px;
-  border: 1.5px dashed rgba(255, 255, 255, 0.18);
+  display: block;
+  width: 44px;
+  height: 44px;
+  border: 2px dashed var(--text-muted);
+  border-radius: 10px;
   background: var(--surface-soft);
-  font-size: 0.85rem;
   color: var(--text-muted);
   cursor: pointer;
-  transition: border-color 0.15s ease, color 0.15s ease;
+  transition: color 0.15s ease, border-color 0.15s ease;
+}
+
+.file-input::before,
+.file-input::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  background: currentColor;
+  border-radius: 2px;
+  transform: translate(-50%, -50%);
+}
+
+.file-input::before {
+  width: 16px;
+  height: 2px;
+}
+
+.file-input::after {
+  width: 2px;
+  height: 16px;
 }
 
 .file-input:hover {
-  border-color: rgba(255, 255, 255, 0.4);
   color: var(--text);
+  border-color: var(--text);
+}
+
+.file-input:focus-within {
+  outline: 2px solid var(--legendary);
+  outline-offset: 2px;
 }
 
 .file-input input {
@@ -149,8 +176,8 @@
 }
 
 .upload-card-thumb {
-  width: 40px;
-  height: 40px;
+  width: 44px;
+  height: 44px;
   border-radius: 10px;
   object-fit: cover;
   border: 2px solid rgba(255, 255, 255, 0.15);
