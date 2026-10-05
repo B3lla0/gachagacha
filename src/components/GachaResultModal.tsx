@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import type { GachaCapsule } from "../types/capsule";
 import { GachaReveal } from "./GachaReveal";
+import { fireConfetti } from "../utils/confetti";
 
 interface Props {
   result: GachaCapsule | null;
@@ -18,6 +19,10 @@ export function GachaResultModal({ result, drawId, onClose }: Props) {
     window.addEventListener("keydown", handleKey);
     return () => window.removeEventListener("keydown", handleKey);
   }, [result, onClose]);
+  useEffect(() => {
+    if (!result) return;
+    fireConfetti(result.rarity);
+  }, [result, drawId]);
 
   return (
     <AnimatePresence>
