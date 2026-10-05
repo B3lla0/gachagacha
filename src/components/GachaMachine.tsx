@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { drawGacha } from "../utils/gacha";
 import type { GachaCapsule, Rarity } from "../types/capsule";
 import { RarityUploader } from "./RarityUploader";
@@ -70,12 +70,20 @@ export function GachaMachine() {
     }));
   };
 
+  const isDrawingRef = useRef(false);
+
   const handleDraw = () => {
+    if (isDrawingRef.current || items.length === 0) return;
+    isDrawingRef.current = true;
+
+    setResult(null);
     setIsShaking(true);
+
     setTimeout(() => {
       setResult(drawGacha(items));
       setDrawId((prev) => prev + 1);
       setIsShaking(false);
+      isDrawingRef.current = false;
     }, 600);
   };
 
@@ -129,6 +137,7 @@ export function GachaMachine() {
         result={result}
         drawId={drawId}
         onClose={() => setResult(null)}
+        onRedraw={handleDraw}
       />
     </div>
   );

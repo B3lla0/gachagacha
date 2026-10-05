@@ -8,9 +8,10 @@ interface Props {
   result: GachaCapsule | null;
   drawId: number;
   onClose: () => void;
+  onRedraw: () => void;
 }
 
-export function GachaResultModal({ result, drawId, onClose }: Props) {
+export function GachaResultModal({ result, drawId, onClose, onRedraw }: Props) {
   useEffect(() => {
     if (!result) return;
     const handleKey = (e: KeyboardEvent) => {
@@ -19,6 +20,7 @@ export function GachaResultModal({ result, drawId, onClose }: Props) {
     window.addEventListener("keydown", handleKey);
     return () => window.removeEventListener("keydown", handleKey);
   }, [result, onClose]);
+
   useEffect(() => {
     if (!result) return;
     fireConfetti(result.rarity);
@@ -49,6 +51,9 @@ export function GachaResultModal({ result, drawId, onClose }: Props) {
               ×
             </button>
             <GachaReveal item={result} drawId={drawId} />
+            <button className="modal-redraw" onClick={onRedraw}>
+              다시 뽑기
+            </button>
           </motion.div>
         </motion.div>
       )}
