@@ -7,7 +7,7 @@ export function ImageUploader({ onFilesSelected }: Props) {
     <input
       type="file"
       accept="image/*"
-      // multiple
+      multiple
       onChange={(e) => {
         if (e.target.files) {
           onFilesSelected(Array.from(e.target.files));
